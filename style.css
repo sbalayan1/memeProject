@@ -1,0 +1,88 @@
+body {
+  background-color: white;
+}
+
+header {
+    float: left;
+    width: 225px;
+    height: auto;
+    border-right: solid #404040 1px;
+    border-bottom: solid #404040 1px;
+    border-radius: 0 0 6px 0;
+    padding: 10px;
+    margin-right: 10px;
+  }
+
+
+h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 52px;
+    color: #3493d5;
+    margin: 10px 0;
+}
+
+ul {
+    padding: 0;
+  }
+  
+li {
+    list-style: none;
+  }
+  
+nav ul {
+    margin-left: 15px;
+  }
+  
+nav ul li {
+    padding: 5px;
+    cursor: pointer;
+  }
+  
+nav ul li:hover {
+    background-color: greenyellow;
+    color: black;
+  }
+
+/*code for the button and collapsible navigation bar*/
+.collapsible {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+    background-color: #ccc;
+  }
+
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+  }
+
+
+/*copied the code above*/
+
+h2 {
+    align-items: center;
+}
+
+img {
+    padding-left: 300px;
+}
+
+p {
+  text-align: center;
+}
+
+form{
+    align-items: center;
+    text-align: center;
+}
