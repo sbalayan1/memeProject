@@ -1,5 +1,5 @@
 let apiURL = 'https://api.imgflip.com/get_memes'
-
+let localURL = 'http://localhost:3000/memes/'
 
 let memeHeader = document.querySelector('h2')
 let memeImage = document.querySelector('img')
@@ -10,6 +10,20 @@ let collapsibleList = document.getElementsByClassName("collapsible");
 let memeCanvas = document.querySelector('#memeCanvas') //The first line in the script retrieves the node in the DOM representing the <canvas> element
 let memeCTX = memeCanvas.getContext('2d') //access the drawing context using its getContext() method.
 let getInput = document.querySelector('#inp')
+let savedMemesList = document.querySelector('.listOfSavedMemes')
+
+
+//populate the db.json
+/*let loadAPIData = () => {
+    fetch(apiURL)
+    .then(res => res.json())
+    .then(element => element.data.memes.forEach(() => {
+        fetch(localURL, {
+            method: 'POST', 
+            headers: {}
+        }
+    }))
+}*/
 
 //gets the 10th meme in the API and loads it on the page on domcontentload
 let loadApiImage = () => {
@@ -39,7 +53,6 @@ let loadMemeNames = () => {
     .then(element => element.data.memes.forEach((meme)=>{
         let li = document.createElement('li')
         li.textContent = meme.name
-
         li.id = meme.name
 
         memeNameList.append(li)
@@ -93,10 +106,34 @@ $(document).on('input','#inp', () => {
 })
 
 
-//add content to your meme click event listener 
+//creates a separate URL of the meme you created 
 makeAMemeButton.addEventListener('submit', (e) => {
     e.preventDefault()
-    console.log(memeCTX.getImageData(50, 50, 100, 100));
+    let newImageURL = memeCanvas.toDataURL();
+    let newImageName = memeHeader
+    fetch(localURL, {
+        method: 'POST',
+        headers: {'Content-Type' : 'applications/json',
+        Accept: 'applications/json'
+    },
+        body: JSON.stringify({
+            "Name" : `${newImageName}`,
+            "Image" : `${newImageURL}`,
+            "Likes" : 0
+        })
+    })
+    .then(res => res.json())
+    .then(() => {
+        let li = document.createElement('li')
+        let img = document.createElement('img')
+        img.src = newImageURL
+        img.style.height = "25px"
+        img.style.width = "25px"
+        li.append(img)
+        li.append(savedMemesList)
+        
+    })
+
 })
 
 
