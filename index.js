@@ -85,7 +85,7 @@ memeCTX.font = "26pt Verdana"
 $(document).on('input','#inp', () => {
     //redraw image
     memeCTX.clearRect(0,0,memeCanvas.width,memeCanvas.height);
-    memeCTX.drawImage($('img').get(0), 0,100);
+    memeCTX.drawImage($('img').get(0), 0, 0); //set all to 0 please 
     //refill text
     memeCTX.fillStyle = "White";
     memeCTX.fillText(getInput.value,40,80)
