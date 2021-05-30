@@ -7,6 +7,9 @@ let body = document.querySelector('body')
 let makeAMemeButton = document.querySelector('.makeAMeme')
 let memeNameList = document.querySelector('.listOfMemes')
 let collapsibleList = document.getElementsByClassName("collapsible");
+let memeCanvas = document.querySelector('#memeCanvas') //The first line in the script retrieves the node in the DOM representing the <canvas> element
+let memeCTX = memeCanvas.getContext('2d') //access the drawing context using its getContext() method.
+let getInput = document.querySelector('#inp')
 
 //gets the 10th meme in the API and loads it on the page on domcontentload
 let loadApiImage = () => {
@@ -70,13 +73,31 @@ for (i = 0; i < collapsibleList.length; i++) {
 }
 }
 
- 
+//sets the canvas height, width, crossOrigin and font using jquery 
+memeCanvas.width = $('img').width()
+memeCanvas.crossOrigin = "Anonymous"
+memeCanvas.height = $('img').height()
+memeCTX.drawImage($('img').get(0), 0, 0)
+memeCTX.font = "26pt Verdana"
+
+
+//creates the meme ON INPUT in the input form 
+$(document).on('input','#inp', () => {
+    //redraw image
+    memeCTX.clearRect(0,0,memeCanvas.width,memeCanvas.height);
+    memeCTX.drawImage($('img').get(0), 0, 0);
+    //refill text
+    memeCTX.fillStyle = "White";
+    memeCTX.fillText(getInput.value,40,80)
+    //memeCTX.fillText($(this).val(),20,40);
+})
+
+
 //add content to your meme click event listener 
 makeAMemeButton.addEventListener('submit', (e) => {
     e.preventDefault()
-    console.log('you have been clicked')
+    console.log(memeCTX.getImageData(50, 50, 100, 100));
 })
-
 
 
 //DOMContentLoaded event listener
