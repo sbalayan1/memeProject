@@ -86,8 +86,9 @@ ul {
     
   }
   
-li {
+ul li {
     list-style: none;
+    color: black;
   }
 
 ul li:hover {

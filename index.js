@@ -1,6 +1,7 @@
 let apiURL = 'https://api.imgflip.com/get_memes'
 let localURL = 'http://localhost:3000/memes/'
 
+let likeButton = document.querySelector('like')
 let memeHeader = document.querySelector('h2')
 let memeImage = document.querySelector('img')
 let body = document.querySelector('body')
@@ -13,18 +14,6 @@ let getInput = document.querySelector('#inp')
 let savedMemesList = document.querySelector('.listOfSavedMemes')
 
 
-//populate the db.json
-/*let loadAPIData = () => {
-    fetch(apiURL)
-    .then(res => res.json())
-    .then(element => element.data.memes.forEach(() => {
-        fetch(localURL, {
-            method: 'POST', 
-            headers: {}
-        }
-    }))
-}*/
-
 //gets the 10th meme in the API and loads it on the page on domcontentload
 let loadApiImage = () => {
     fetch(apiURL)
@@ -35,7 +24,6 @@ let loadApiImage = () => {
     })
 }
 
-
 let imageInfo = (meme) => {
     let memeHeader = document.querySelector('h2')
     let memeImage = document.querySelector('img')
@@ -43,7 +31,6 @@ let imageInfo = (meme) => {
     memeHeader.textContent = meme.name
     memeImage.src = meme.url
     meme.id = meme.id //sets the variable meme id to the api provided meme id. 
-
 }
 
 //gets the meme names in the API and populates them in the collapsible navigation bar
@@ -58,15 +45,12 @@ let loadMemeNames = () => {
         memeNameList.append(li)
 
          //event listener that allows the user to select a meme from the navigation bar
-        li.addEventListener('click', () => {
-        console.log('you clicked on a meme in the list?')       
+        li.addEventListener('click', () => {    
         memeHeader.textContent = meme.name
         memeImage.src = meme.url
-
-            })
         })
-    )
-}
+    })
+)}
 
 
 //makes the navigation bar collapsible list
@@ -82,9 +66,9 @@ for (i = 0; i < collapsibleList.length; i++) {
     } else {
       content.style.display = "block";
     }
-  });
-}
-}
+  })
+}}
+
 
 //sets the canvas height, width, crossOrigin and font using jquery 
 memeCanvas.width = $('img').width()
@@ -102,7 +86,6 @@ $(document).on('input','#inp', () => {
     //refill text
     memeCTX.fillStyle = "White";
     memeCTX.fillText(getInput.value,40,80)
-    //memeCTX.fillText($(this).val(),20,40);
 })
 
 
@@ -125,17 +108,20 @@ makeAMemeButton.addEventListener('submit', (e) => {
     .then(res => res.json())
     .then(() => {
         let li = document.createElement('li')
-        let img = document.createElement('img')
-        img.src = newImageURL
-        img.style.height = "25px"
-        img.style.width = "25px"
-        li.append(img)
-        li.append(savedMemesList)
-        
-    })
+        let savedImg = document.createElement('img')
+        savedImg.src = newImageURL
+        savedImg.style.height = "100px"
+        savedImg.style.width = "150px"
 
+        li.append(savedImg)
+        savedMemesList.append(li)
+        
+        memeCTX.clearRect(0,0,memeCanvas.width,memeCanvas.height);    
+    })
 })
 
+
+memeCTX.clearRect(0,0,memeCanvas.width,memeCanvas.height);
 
 //DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', () => {
@@ -143,3 +129,5 @@ document.addEventListener('DOMContentLoaded', () => {
   loadMemeNames();
   makeCollapsibleList();
 })
+
+
