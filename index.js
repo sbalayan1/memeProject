@@ -25,22 +25,6 @@ let loadApiImage = () => {
     })
 }
 
-let likeNumber = 0
-likeButton.addEventListener('click',(e)=>{
-  console.log(e.target.nextSibling)
-  // 
-  const likeParag = document.querySelector('#likeparag')
-  // When I click on like button I want the P to be equal to number of likes clicked.
-
-  likeNumber = likeNumber+1
-  if (likeNumber === 1){
-    likeParag.textContent ='1 like'
-  } else {
-    likeParag.textContent = `${likeNumber} likes`
-  }
-})
-
-
 let imageInfo = (meme) => {
     let memeHeader = document.querySelector('h2')
     let memeImage = document.querySelector('img')
@@ -124,6 +108,34 @@ makeAMemeButton.addEventListener('submit', (e) => {
     })
     .then(res => res.json())
     .then(() => {
+
+        //SAM YOUR LIKE BUTTON IS HERE
+
+        //creates the like button and corresponding paragraph tag
+        let likePhrase = document.createElement('p')
+        let likeButton = document.createElement('button')
+
+
+        likePhrase.id = 'likeParag'
+        likeButton.className = 'like'
+        likeButton.textContent = 'LIKE'
+
+        savedMemesList.append(likeButton, likePhrase)
+
+
+        //event listener for the like count
+        let likeNumber = 0
+        likeButton.addEventListener('click',(e)=>{
+
+        likeNumber = likeNumber+1
+        if (likeNumber === 1){
+            likePhrase.textContent ='1 like'
+        } else {
+            likePhrase.textContent = `${likeNumber} likes`
+        }
+        })
+        
+        //creates a list element, appends the new image to the saved memes list, clears the submit form and canvas
         let li = document.createElement('li')
         let savedImg = document.createElement('img')
         savedImg.src = newImageURL
@@ -133,7 +145,9 @@ makeAMemeButton.addEventListener('submit', (e) => {
         li.append(savedImg)
         savedMemesList.append(li)
         
+        makeAMemeButton.reset();
         memeCTX.clearRect(0,0,memeCanvas.width,memeCanvas.height)
+
     })
 })
 
