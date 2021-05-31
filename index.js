@@ -2,7 +2,7 @@ let apiURL = 'https://api.imgflip.com/get_memes'
 let localURL = 'http://localhost:3000/memes/'
 
 
-let likeButton = document.querySelector('like')
+let likeButton = document.querySelector('.like')
 let memeHeader = document.querySelector('h2')
 let memeImage = document.querySelector('img')
 let body = document.querySelector('body')
