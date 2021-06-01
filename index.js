@@ -1,6 +1,6 @@
 let apiURL = 'https://api.imgflip.com/get_memes'
 
-
+let likeButton = document.querySelector('.like')
 let memeHeader = document.querySelector('h2')
 let memeImage = document.querySelector('img')
 let body = document.querySelector('body')
@@ -98,7 +98,26 @@ makeAMemeButton.addEventListener('submit', (e) => {
     e.preventDefault()
     console.log(memeCTX.getImageData(50, 50, 100, 100));
 })
+//Like button
+fetch (apiURL , {
+  method: "PATCH", 
+  headers: { 'Content-Type': 'application/json'},
+  body: JSON.stringify({
+  likes: updatedLikes
+  })
+})
+.then(res => res.json()
+.then(() => {
+  p.textContent =`${updatedLikes} Likes`,
+  })
+})
 
+let likes =0;
+likeButton.addEventListener('click',likeAction)
+function likeAction() {
+  let likedNumber =document.createElement('li')
+  likeCounts.append(likedNumber)
+}
 
 //DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', () => {
@@ -106,3 +125,4 @@ document.addEventListener('DOMContentLoaded', () => {
   loadMemeNames();
   makeCollapsibleList();
 })
+
