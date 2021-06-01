@@ -20,13 +20,18 @@
     
     <main>
         <h2>Meme name goes here</h2>
-        <img id="meme" alt="meme image goes here">
-
-        <p>This is a blank slate for memes</p>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <form class="makeAMeme">
-            <textarea >Make a meme</textarea>
-            <input type="submit"> 
+            <img id="meme" crossorigin="anonymous" alt="meme image goes here">
+            <input type="text" id="inp"/>
+            <button class="makeAMeme" type="submit">Make a meme</button>
+            <button class="like">Like</button>
         </form>
+
+        <canvas id="memeCanvas"></canvas>
+        <!--<canvas id="memeCanvas"> 
+            <img id="meme" alt="meme image goes here">
+        </canvas>-->
         <script type="text/javascript" src="index.js"></script> 
 
     </main>
