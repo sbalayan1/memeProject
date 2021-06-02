@@ -20,8 +20,20 @@ let loadApiImage = () => {
         imageInfo(firstMeme)
     })
 }
+let likeNumber = 0
+likeButton.addEventListener('click',(e)=>{
+  console.log(e.target.nextSibling)
+  // 
+  const likeParag = document.querySelector('#likeparag')
+  // When I click on like button I want the P to be equal to number of likes clicked.
 
-
+  likeNumber = likeNumber+1
+  if (likeNumber === 1){
+    likeParag.textContent ='1 like'
+  } else {
+    likeParag.textContent = `${likeNumber} likes`
+  }
+})
 let imageInfo = (meme) => {
     let memeHeader = document.querySelector('h2')
     let memeImage = document.querySelector('img')
@@ -98,26 +110,25 @@ makeAMemeButton.addEventListener('submit', (e) => {
     e.preventDefault()
     console.log(memeCTX.getImageData(50, 50, 100, 100));
 })
-//Like button
-fetch (apiURL , {
-  method: "PATCH", 
-  headers: { 'Content-Type': 'application/json'},
-  body: JSON.stringify({
-  likes: updatedLikes
-  })
-})
-.then(res => res.json()
-.then(() => {
-  p.textContent =`${updatedLikes} Likes`,
-  })
-})
 
-let likes =0;
-likeButton.addEventListener('click',likeAction)
-function likeAction() {
-  let likedNumber =document.createElement('li')
-  likeCounts.append(likedNumber)
-}
+// //Like button
+// fetch (apiURL , {
+//   method: "PATCH", 
+//   headers: { 'Content-Type': 'application/json'},
+//   body: JSON.stringify({
+//   likes: updatedLikes
+//   })
+// })
+// .then(res => res.json()
+// .then(() => {
+//   p.textContent =`${updatedLikes} Likes`,
+ 
+// let likes =0;
+// likeButton.addEventListener('click',likeAction)
+// function likeAction() {
+//   let likedNumber =document.createElement('li')
+//   likeCounts.append(likedNumber)
+// }
 
 //DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', () => {
