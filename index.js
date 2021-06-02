@@ -18,15 +18,18 @@ let loadApiImage = () => {
     .then(element => {
         let firstMeme = element.data.memes[10]
         imageInfo(firstMeme)
-    })
+ 
+   
+     })
 }
+  // Like Button
+  // When I click on like button I want the P to be equal to number of likes clicked.
+
 let likeNumber = 0
 likeButton.addEventListener('click',(e)=>{
   console.log(e.target.nextSibling)
-  // 
+  
   const likeParag = document.querySelector('#likeparag')
-  // Like Button
-  // When I click on like button I want the P to be equal to number of likes clicked.
 
   likeNumber = likeNumber+1
   if (likeNumber === 1){
@@ -42,7 +45,6 @@ let imageInfo = (meme) => {
     memeHeader.textContent = meme.name
     memeImage.src = meme.url
     meme.id = meme.id //sets the variable meme id to the api provided meme id. 
-
 }
 
 //gets the meme names in the API and populates them in the collapsible navigation bar
