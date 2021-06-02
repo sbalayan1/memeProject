@@ -6,9 +6,7 @@ header {
     float: left;
     width: 225px;
     height: auto;
-    border-right: solid #404040 1px;
-    border-bottom: solid #404040 1px;
-    border-radius: 0 0 6px 0;
+    border: none; 
     padding: 10px;
     margin-right: 10px;
   }
@@ -69,6 +67,34 @@ nav ul li:hover {
 
 
 /*copied the code above*/
+
+header#saved_memes {
+    float:right;
+    border: none;
+
+}
+
+h3 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 16px;
+    color: #3493d5;
+    margin: 10px 0;
+}
+
+ul {
+    padding: 0;
+    
+  }
+  
+ul li {
+    list-style: none;
+    color: black;
+  }
+
+ul li:hover {
+    background-color: orange;
+    color: black;
+  }
 
 main {
     float: left;
