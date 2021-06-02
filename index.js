@@ -25,8 +25,8 @@ likeButton.addEventListener('click',(e)=>{
   console.log(e.target.nextSibling)
   // 
   const likeParag = document.querySelector('#likeparag')
+  //Like button
   // When I click on like button I want the P to be equal to number of likes clicked.
-
   likeNumber = likeNumber+1
   if (likeNumber === 1){
     likeParag.textContent ='1 like'
