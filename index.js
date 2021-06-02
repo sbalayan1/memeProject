@@ -1,6 +1,6 @@
 let apiURL = 'https://api.imgflip.com/get_memes'
 
-
+let likeButton = document.querySelector('.like')
 let memeHeader = document.querySelector('h2')
 let memeImage = document.querySelector('img')
 let body = document.querySelector('body')
@@ -20,8 +20,21 @@ let loadApiImage = () => {
         imageInfo(firstMeme)
     })
 }
+let likeNumber = 0
+likeButton.addEventListener('click',(e)=>{
+  console.log(e.target.nextSibling)
+  // 
+  const likeParag = document.querySelector('#likeparag')
+  // Like Button
+  // When I click on like button I want the P to be equal to number of likes clicked.
 
-
+  likeNumber = likeNumber+1
+  if (likeNumber === 1){
+    likeParag.textContent ='1 like'
+  } else {
+    likeParag.textContent = `${likeNumber} likes`
+  }
+})
 let imageInfo = (meme) => {
     let memeHeader = document.querySelector('h2')
     let memeImage = document.querySelector('img')
@@ -99,6 +112,18 @@ makeAMemeButton.addEventListener('submit', (e) => {
     console.log(memeCTX.getImageData(50, 50, 100, 100));
 })
 
+// //Like button
+// fetch (apiURL , {
+//   method: "PATCH", 
+//   headers: { 'Content-Type': 'application/json'},
+//   body: JSON.stringify({
+//   likes: updatedLikes
+//   })
+// })
+// .then(res => res.json()
+// .then(() => {
+//   p.textContent =`${updatedLikes} Likes`,
+ //}
 
 //DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', () => {
@@ -106,3 +131,4 @@ document.addEventListener('DOMContentLoaded', () => {
   loadMemeNames();
   makeCollapsibleList();
 })
+
