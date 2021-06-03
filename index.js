@@ -24,6 +24,7 @@ let loadApiImage = () => {
     })
 }
 
+
 let imageInfo = (meme) => {
     let memeHeader = document.querySelector('h2')
     let memeImage = document.querySelector('img')
