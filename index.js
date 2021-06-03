@@ -8,6 +8,7 @@ let memeImage = document.querySelector('img')
 let body = document.querySelector('body')
 let makeAMemeButton = document.querySelector('.makeAMeme')
 let memeNameList = document.querySelector('.listOfMemes')
+let randomMemeButton = document.querySelector('#randomMeme')
 let collapsibleList = document.getElementsByClassName("collapsible");
 let memeCanvas = document.querySelector('#memeCanvas') //The first line in the script retrieves the node in the DOM representing the <canvas> element
 let memeCTX = memeCanvas.getContext('2d') //access the drawing context using its getContext() method.
@@ -53,6 +54,25 @@ let loadMemeNames = () => {
     })
 )}
 
+//random meme generator 
+randomMemeButton.addEventListener('click', () => {
+    fetch('https://api.imgflip.com/get_memes')
+    .then(res => res.json())
+    .then(element => {
+        let randomMeme = element.data.memes[Math.floor(Math.random() * element.data.memes.length)]
+        imageInfo(randomMeme)
+
+        memeCTX.clearRect(0,0,memeCanvas.width,memeCanvas.height);
+    })
+})
+
+let disableEmptySubmit = () => {
+    console.log(getInput.value)
+    if(getInput.value === " "){
+        makeAMemeButton[1].disabled = true
+        makeAMemeButton[1].style["display"] = "hidden"
+    }
+}
 
 //makes the navigation bar collapsible list
 let makeCollapsibleList = () => {
@@ -90,40 +110,46 @@ $(document).on('input','#inp', () => {
 })
 
 
+
+
+
 //creates a separate URL of the meme you created 
 makeAMemeButton.addEventListener('submit', (e) => {
     e.preventDefault()
     let newImageURL = memeCanvas.toDataURL();
     let newImageName = memeHeader
+
     fetch(localURL, {
         method: 'POST',
         headers: {'Content-Type' : 'applications/json',
         Accept: 'applications/json'
-    },
+        },
         body: JSON.stringify({
-            "Name" : `${newImageName}`,
-            "Image" : `${newImageURL}`,
-            "Likes" : 0
+            "name" : newImageName,
+            "image" : newImageURL,
+            "likes" : 0
         })
     })
     .then(res => res.json())
     .then(() => {
 
-        //SAM YOUR LIKE BUTTON IS HERE
-
         //creates the like button and corresponding paragraph tag
-        let likePhrase = document.createElement('p')
         let likeButton = document.createElement('button')
+        let deleteButton = document.createElement('button')
+        let likePhrase = document.createElement('p')
 
-
-        likePhrase.id = 'likeParag'
         likeButton.className = 'like'
         likeButton.textContent = 'LIKE'
 
-        savedMemesList.append(likeButton, likePhrase)
+        deleteButton.style.backgroundColor = "red"
+        deleteButton.className = 'delete'
+        deleteButton.textContent = 'X' 
 
+        likePhrase.id = 'likeParag'
 
-        //event listener for the like count
+        savedMemesList.append(likeButton, deleteButton, likePhrase)
+
+        //event listener for the like count (does not persist)
         let likeNumber = 0
         likeButton.addEventListener('click',(e)=>{
 
@@ -135,9 +161,14 @@ makeAMemeButton.addEventListener('submit', (e) => {
         }
         })
         
-        //creates a list element, appends the new image to the saved memes list, clears the submit form and canvas
+        //creates a list element, appends the new image to the saved memes list, and clears the submit form/canvas. (does not persist)
         let li = document.createElement('li')
         let savedImg = document.createElement('img')
+
+
+
+        li.id = newImageName.textContent
+        li.className = 'saved_image'
         savedImg.src = newImageURL
         savedImg.style.height = "100px"
         savedImg.style.width = "150px"
@@ -147,6 +178,22 @@ makeAMemeButton.addEventListener('submit', (e) => {
         
         makeAMemeButton.reset();
         memeCTX.clearRect(0,0,memeCanvas.width,memeCanvas.height)
+
+
+        //click functionality that lets you reopen the saved image 
+        li.addEventListener('click', () => {
+            memeHeader.textContent = li.id
+            memeImage.src = newImageURL        
+        })
+
+        //delete button functionality (does not persist)
+        deleteButton.addEventListener('click', () => {
+            li.remove()
+            likeButton.remove()
+            deleteButton.remove()
+            likePhrase.remove()
+
+        })
 
     })
 })
@@ -177,4 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
   loadApiImage();
   loadMemeNames();
   makeCollapsibleList();
+  disableEmptySubmit();
 })
+
