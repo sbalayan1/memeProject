@@ -23,7 +23,7 @@ let loadApiImage = () => {
 let likeNumber = 0
 likeButton.addEventListener('click',(e)=>{
   console.log(e.target.nextSibling)
-  // 
+  
   const likeParag = document.querySelector('#likeparag')
   //Like button
   // When I click on like button I want the P to be equal to number of likes clicked.
