@@ -75,13 +75,20 @@ let loadSavedMemes = () => {
         //event listener for the like count (does not persist)
         let likeNumber = meme.likes
         likeButton.addEventListener('click',(e)=>{
-
-        likeNumber = likeNumber+1
-        if (likeNumber === 1){
-            likePhrase.textContent ='1 like'
-        } else {
-            likePhrase.textContent = `${likeNumber} likes`
-        }
+        fetch(`http://localhost:3000/memes/${li.id}`, {
+            method: 'PATCH', 
+            headers: {'Content-type':'application/json'},
+            body: JSON.stringify({likes: likeNumber})
+        })
+        .then(res => res.json())
+        .then(data => {
+            likeNumber = likeNumber+1
+            if (likeNumber === 1){
+                likePhrase.textContent ='1 like'
+            } else {
+                likePhrase.textContent = `${likeNumber} likes`
+            }
+        })
         })
 
         //creates a list element, appends the new image to the saved memes list, and clears the submit form/canvas.
@@ -98,8 +105,6 @@ let loadSavedMemes = () => {
         savedMemesList.append(li)
 
         //click functionality that lets you reopen the saved image 
-        let newImageName = memeHeader
-
         li.addEventListener('click', () => {
             memeHeader.textContent = li.className
             memeImage.src = savedImg.src        
@@ -120,7 +125,8 @@ let loadSavedMemes = () => {
             })
         })
     })
-)}   
+    )
+}
 
 //random meme generator 
 randomMemeButton.addEventListener('click', () => {
@@ -206,16 +212,24 @@ makeAMemeButton.addEventListener('submit', (e) => {
 
         //event listener for the like count (does not persist)
         let likeNumber = 0
-        likeButton.addEventListener('click',(e)=>{
-
-        likeNumber = likeNumber+1
-        if (likeNumber === 1){
-            likePhrase.textContent ='1 like'
-        } else {
-            likePhrase.textContent = `${likeNumber} likes`
-        }
-        })
         
+        likeButton.addEventListener('click',(e)=>{
+            fetch(`http://localhost:3000/memes/${li.id}`, {
+                method: 'PATCH', 
+                headers: {'Content-type':'application/json'},
+                body: JSON.stringify({likes: likeNumber})
+            })
+            .then(res => res.json())
+            .then(data => {
+                likeNumber = likeNumber+1
+                if (likeNumber === 1){
+                    likePhrase.textContent ='1 like'
+                } else {
+                    likePhrase.textContent = `${likeNumber} likes`
+                }
+            })
+        })
+      
         //creates a list element, appends the new image to the saved memes list, and clears the submit form/canvas. (does not persist)
         let li = document.createElement('li')
         let savedImg = document.createElement('img')
@@ -282,4 +296,3 @@ document.addEventListener('DOMContentLoaded', () => {
   loadSavedMemes();
   makeCollapsibleList();
 })
-
