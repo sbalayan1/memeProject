@@ -32,8 +32,17 @@ likeButton.addEventListener('click',(e)=>{
     likeParag.textContent ='1 like'
   } else {
     likeParag.textContent = `${likeNumber} likes`
-  }
+
+  fetch('http://localhost:3000/memes', {
+  method: "PATCH", 
+  headers: { 'Content-Type': 'application/json'},
+  body: JSON.stringify({
+  likes: likeNumber })
+    
 })
+}
+
+
 let imageInfo = (meme) => {
     let memeHeader = document.querySelector('h2')
     let memeImage = document.querySelector('img')
@@ -137,3 +146,4 @@ document.addEventListener('DOMContentLoaded', () => {
   makeCollapsibleList();
 })
 
+})

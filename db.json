@@ -3,7 +3,8 @@
     {
       "id": 1,
       "title": "json-server",
-      "author": "typicode"
+      "author": "typicode",
+      "likes": 0
     }
   ],
   "comments": [
