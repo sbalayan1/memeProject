@@ -1,7 +1,6 @@
 let apiURL = 'https://api.imgflip.com/get_memes'
 let localURL = 'http://localhost:3000/memes/'
 
-
 let likeButton = document.querySelector('.like')
 let memeHeader = document.querySelector('h2')
 let memeImage = document.querySelector('img')
@@ -14,7 +13,6 @@ let memeCanvas = document.querySelector('#memeCanvas') //The first line in the s
 let memeCTX = memeCanvas.getContext('2d') //access the drawing context using its getContext() method.
 let getInput = document.querySelector('#inp')
 let savedMemesList = document.querySelector('.listOfSavedMemes')
-
 
 //gets the 10th meme in the API and loads it on the page on domcontentload
 let loadApiImage = () => {
@@ -46,7 +44,7 @@ let loadMemeNames = () => {
 
         memeNameList.append(li)
 
-         //event listener that allows the user to select a meme from the navigation bar
+        //event listener that allows the user to select a meme from the navigation bar
         li.addEventListener('click', () => {    
         memeHeader.textContent = meme.name
         memeImage.src = meme.url
@@ -54,25 +52,88 @@ let loadMemeNames = () => {
     })
 )}
 
+//load savedMemes 
+let loadSavedMemes = () => {
+    fetch(localURL)
+    .then(res => res.json())
+    .then(element => element.forEach(meme => {
+        let likeButton = document.createElement('button')
+        let deleteButton = document.createElement('button')
+        let likePhrase = document.createElement('p')
+
+        likeButton.className = 'like'
+        likeButton.textContent = 'LIKE'
+
+        deleteButton.style.backgroundColor = "red"
+        deleteButton.className = 'delete'
+        deleteButton.textContent = 'X' 
+
+        likePhrase.id = 'likeParag'
+
+        savedMemesList.append(likeButton, deleteButton, likePhrase)
+
+        //event listener for the like count (does not persist)
+        let likeNumber = meme.likes
+        likeButton.addEventListener('click',(e)=>{
+
+        likeNumber = likeNumber+1
+        if (likeNumber === 1){
+            likePhrase.textContent ='1 like'
+        } else {
+            likePhrase.textContent = `${likeNumber} likes`
+        }
+        })
+
+        //creates a list element, appends the new image to the saved memes list, and clears the submit form/canvas.
+        let li = document.createElement('li')
+        let savedImg = document.createElement('img')
+
+        li.id = meme.id
+        li.className = meme.name
+        savedImg.src = meme.image
+        savedImg.style.height = "100px"
+        savedImg.style.width = "150px"
+
+        li.append(savedImg)
+        savedMemesList.append(li)
+
+        //click functionality that lets you reopen the saved image 
+        let newImageName = memeHeader
+
+        li.addEventListener('click', () => {
+            memeHeader.textContent = li.className
+            memeImage.src = savedImg.src        
+        })
+
+        //delete button functionality
+        deleteButton.addEventListener('click', () => {
+            fetch(`http://localhost:3000/memes/${li.id}`, {
+                method: 'DELETE',
+                headers: {'Contact-type' : 'application/json'}
+            })
+            .then(res => res.json())
+            .then(() => {
+                li.remove()
+                likeButton.remove()
+                deleteButton.remove()
+                likePhrase.remove()
+            })
+        })
+    })
+)}   
+
 //random meme generator 
 randomMemeButton.addEventListener('click', () => {
     fetch('https://api.imgflip.com/get_memes')
     .then(res => res.json())
     .then(element => {
         let randomMeme = element.data.memes[Math.floor(Math.random() * element.data.memes.length)]
-        imageInfo(randomMeme)
+        memeCTX.clearRect(0,0,memeCanvas.width,memeCanvas.height)
 
-        memeCTX.clearRect(0,0,memeCanvas.width,memeCanvas.height);
+        memeHeader.textContent = randomMeme.name
+        memeImage.src = randomMeme.url
     })
 })
-
-let disableEmptySubmit = () => {
-    console.log(getInput.value)
-    if(getInput.value === " "){
-        makeAMemeButton[1].disabled = true
-        makeAMemeButton[1].style["display"] = "hidden"
-    }
-}
 
 //makes the navigation bar collapsible list
 let makeCollapsibleList = () => {
@@ -90,14 +151,12 @@ for (i = 0; i < collapsibleList.length; i++) {
   })
 }}
 
-
 //sets the canvas height, width, crossOrigin and font using jquery 
 memeCanvas.width = $('img').width()
 memeCanvas.crossOrigin = "Anonymous"
 memeCanvas.height = $('img').height()
 memeCTX.drawImage($('img').get(0), 0, 0)
 memeCTX.font = "26pt Verdana"
-
 
 //creates the meme ON INPUT in the input form 
 $(document).on('input','#inp', () => {
@@ -109,13 +168,11 @@ $(document).on('input','#inp', () => {
     memeCTX.fillText(getInput.value,40,80)
 })
 
-
 //creates a separate URL of the meme you created 
 makeAMemeButton.addEventListener('submit', (e) => {
     e.preventDefault()
     let newImageURL = memeCanvas.toDataURL();
     let newImageName = memeHeader
-
 
     fetch(localURL, {
         method: 'POST',
@@ -163,9 +220,6 @@ makeAMemeButton.addEventListener('submit', (e) => {
         let li = document.createElement('li')
         let savedImg = document.createElement('img')
 
-
-
-        li.id = newImageName.textContent
         li.className = 'saved_image'
         savedImg.src = newImageURL
         savedImg.style.height = "100px"
@@ -177,22 +231,28 @@ makeAMemeButton.addEventListener('submit', (e) => {
         makeAMemeButton.reset();
         memeCTX.clearRect(0,0,memeCanvas.width,memeCanvas.height)
 
-
         //click functionality that lets you reopen the saved image 
         li.addEventListener('click', () => {
             memeHeader.textContent = li.id
             memeImage.src = newImageURL        
         })
 
-        //delete button functionality (does not persist)
+        //delete button functionality
         deleteButton.addEventListener('click', () => {
-            li.remove()
-            likeButton.remove()
-            deleteButton.remove()
-            likePhrase.remove()
-
+            console.log()
+            fetch(`http://localhost:3000/memes/${li.id}`, {
+                method: 'DELETE',
+                headers: {'Contact-type' : 'application/json'}
+            })
+            .then(res => res.json())
+            .then(() => {
+                console.log('this is working?')
+                li.remove()
+                likeButton.remove()
+                deleteButton.remove()
+                likePhrase.remove()
+            })
         })
-
     })
 })
 
@@ -215,13 +275,11 @@ makeAMemeButton.addEventListener('submit', (e) => {
 //   likeCounts.append(likedNumber)
 // }
 
-memeCTX.clearRect(0,0,memeCanvas.width,memeCanvas.height);
-
 //DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', () => {
   loadApiImage();
   loadMemeNames();
+  loadSavedMemes();
   makeCollapsibleList();
-  disableEmptySubmit();
 })
 
