@@ -110,22 +110,20 @@ $(document).on('input','#inp', () => {
 })
 
 
-
-
-
 //creates a separate URL of the meme you created 
 makeAMemeButton.addEventListener('submit', (e) => {
     e.preventDefault()
     let newImageURL = memeCanvas.toDataURL();
     let newImageName = memeHeader
 
+
     fetch(localURL, {
         method: 'POST',
-        headers: {'Content-Type' : 'applications/json',
-        Accept: 'applications/json'
+        headers: {'Content-Type' : 'application/json',
+        Accept: 'application/json'
         },
         body: JSON.stringify({
-            "name" : newImageName,
+            "name" : newImageName.textContent,
             "image" : newImageURL,
             "likes" : 0
         })
