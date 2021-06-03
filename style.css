@@ -13,9 +13,11 @@ header {
 
 
 h1 {
+    text-align: center;
     font-family: 'Great Vibes', cursive;
     font-size: 52px;
-    color: #3493d5;
+    background-color: red;
+    color: goldenrod;
     margin: 10px 0;
 }
 
@@ -111,7 +113,7 @@ h2 {
 img {
     display:block;
     height: 500px;
-    margin: 0 auto 25px auto;
+    width: 500px;
 }
 
 p {
