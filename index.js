@@ -62,7 +62,7 @@ let loadSavedMemes = () => {
         let likePhrase = document.createElement('p')
 
         likeButton.className = 'like'
-        likeButton.textContent = 'LIKE'
+        likeButton.textContent = '<3 LIKE'
 
         deleteButton.style.backgroundColor = "red"
         deleteButton.className = 'delete'
@@ -200,7 +200,7 @@ makeAMemeButton.addEventListener('submit', (e) => {
         let likePhrase = document.createElement('p')
 
         likeButton.className = 'like'
-        likeButton.textContent = 'LIKE'
+        likeButton.textContent = '<3 LIKE'
 
         deleteButton.style.backgroundColor = "red"
         deleteButton.className = 'delete'
@@ -269,25 +269,6 @@ makeAMemeButton.addEventListener('submit', (e) => {
         })
     })
 })
-
-// //Like button
-// fetch (apiURL , {
-//   method: "PATCH", 
-//   headers: { 'Content-Type': 'application/json'},
-//   body: JSON.stringify({
-//   likes: updatedLikes
-//   })
-// })
-// .then(res => res.json()
-// .then(() => {
-//   p.textContent =`${updatedLikes} Likes`,
- 
-// let likes =0;
-// likeButton.addEventListener('click',likeAction)
-// function likeAction() {
-//   let likedNumber =document.createElement('li')
-//   likeCounts.append(likedNumber)
-// }
 
 //DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', () => {
